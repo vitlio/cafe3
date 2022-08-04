@@ -2,7 +2,15 @@
     console.log('priva2');
     const headerLogin = document.getElementById('header-login');
     const soundBtn = document.getElementById('sb')
+
+    const ws = new WebSocket('ws://localhost:8080')
+
     soundBtn.addEventListener('click', play2)
+
+    ws.onmessage = response => {
+        console.log(JSON.parse(response.data));
+        JSON.parse(response.data).ring&&soundBtn.click()
+    }
 
     async function play2() {
         let audio = document.createElement('audio')
