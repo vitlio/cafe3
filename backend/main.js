@@ -16,10 +16,9 @@ app.get('/admin', routerAdmin)
 app.get('/admin/:id', (req, res) => {
     
     if(req.query.ring){
-        console.log(req.query);
         server.clients.forEach(client => client.send(JSON.stringify(req.query)))
     }
     res.send('Вызов принят')
 })
 
-app.listen(PORT, () => console.log('Server started ...'))
+app.listen(PORT, () => console.log('Server started on', PORT))

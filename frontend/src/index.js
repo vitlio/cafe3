@@ -1,18 +1,36 @@
+    const headerLogin = document.getElementById('header-login'); // заготовка для аутентификации
+    const soundBtn = document.getElementById('sb') // кнопка подписки на звук и уведомления
 
-    console.log('priva2');
-    const headerLogin = document.getElementById('header-login');
-    const soundBtn = document.getElementById('sb')
+    const ws = new WebSocket('ws://localhost:8080') // соединяемся вебсоккетами с сервером
 
-    const ws = new WebSocket('ws://localhost:8080')
+    soundBtn.addEventListener('click', subscribePermission) // это звуковое уведомление с кнопки 
 
-    soundBtn.addEventListener('click', play2)
-
-    ws.onmessage = response => {
+    ws.onmessage = response => { // при получении сообщения с сервера
         console.log(JSON.parse(response.data));
-        JSON.parse(response.data).ring&&soundBtn.click()
+        JSON.parse(response.data).ring&&play2()
     }
 
-    async function play2() {
+    async function subscribePermission(){ // функция вызывает первый вузов звукового сигнала
+        let audio = document.createElement('audio') // если этого не сделать, то автоплей работать
+        audio.setAttribute('id', 'audio3') // не будет 
+        audio.setAttribute('src', './public/new_message_tone.mp3')
+        audio.muted = true
+        document.body.append(audio)
+
+        audio.onended = () => { // после звукового сигнала удаляем элемент, чтоб они не накопились
+            document.body.removeChild(audio);
+        }
+
+        audio.play()
+
+        if(!('Notification' in window)){ // если нотификации нет в браузере, 
+            console.log(('Browser does not support notifications')); // то извините,
+        } else if( Notification.permission !== 'denied'){ // Если нотификации есть, а разрешения нету,
+            Notification.requestPermission() // то запрашиваем разрешение
+        }
+    }
+
+    async function play2(){ // функция вывода звукового сигнала и уведомления о вызове к столику
         let audio = document.createElement('audio')
         audio.setAttribute('id', 'audio3')
         audio.setAttribute('src', './public/new_message_tone.mp3')
@@ -23,6 +41,7 @@
         }
 
         audio.play()
+        new Notification('Вызов к столику')
     }
 
 
