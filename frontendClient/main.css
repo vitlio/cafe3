@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    margin-bottom: 10px;
+    height: 80vh;
+    background-image: url(prezentacziya-biznes-plana-kafe-pic002.jpg);
+    background-size:cover;
+}
+.header::after{
+    content: "";
+    height: 100%;
+    width: 100%;
+    display: block;
+
+    background: linear-gradient(to bottom, transparent 50%, white 100%);
+}
+.header-btn{
+    border: none;
+    cursor: pointer;
+}
