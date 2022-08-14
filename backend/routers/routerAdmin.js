@@ -1,8 +1,17 @@
-const fs = require('fs')
 const path = require('path')
+const Router = require('express')
+const router = new Router()
+const Websocket = require('ws')
 
-async function routerStatic(req, res){
-    res.sendFile(path.resolve(__dirname, '../../frontend/src/index.html'))
-}
+const server = new Websocket.Server({ port: 8080 })
 
-module.exports = routerStatic
+router.use('/', Router.static(path.resolve(__dirname, '../../frontend/src/')))
+router.get('/:id', (req, res) => {
+    
+        if(req.query.ring){
+            server.clients.forEach(client => client.send(JSON.stringify(req.query)))
+        }
+        res.send(JSON.stringify('Вызов принят'))
+    })
+
+module.exports = router
