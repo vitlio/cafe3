@@ -3,14 +3,17 @@
 
     const ws = new WebSocket('ws://localhost:8080') // соединяемся вебсоккетами с сервером
 
+    let table;
+
     soundBtn.addEventListener('click', subscribePermission) // это звуковое уведомление с кнопки 
 
     ws.onmessage = response => { // при получении сообщения с сервера
-        console.log(JSON.parse(response.data));
-        JSON.parse(response.data).ring&&play2()
+        const data = JSON.parse(response.data); // распарсиваем объект 
+        table = data.table; // номер столика 
+        data.type === 'call'&&play2() // если тип запроса call, тогда включаем нотификацию
     }
 
-    async function subscribePermission(){ // функция вызывает первый вузов звукового сигнала
+    async function subscribePermission(){ // функция вызывает первый вызов звукового сигнала
         let audio = document.createElement('audio') // если этого не сделать, то автоплей работать
         audio.setAttribute('id', 'audio3') // не будет 
         audio.setAttribute('src', './public/new_message_tone.mp3')
@@ -41,7 +44,7 @@
         }
 
         audio.play()
-        new Notification('Вызов к столику')
+        new Notification(`Вызов к столику ${table}`)
     }
 
 

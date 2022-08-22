@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Courier New', Courier, monospace;
 }
 .header{
     margin-bottom: 10px;
@@ -90,3 +91,19 @@
       transition: 0.6s;
   }
   /*кнопка меню окончание*/
+  /*блок меню*/
+  .menu{
+    text-align: center;
+    padding: 9px;
+  }
+  .menu-content{
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .menu-content_dish{ /*карточка блюда*/
+    width: 49%;
+    text-align: center;
+    padding: 10px 0 10px 0;
+  }
+  /*конец блока меню*/
